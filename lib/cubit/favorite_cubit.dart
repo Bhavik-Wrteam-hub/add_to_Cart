@@ -27,7 +27,6 @@ class FavoriteCubit extends Cubit<FavoriteModel> {
 
   bool inFavoriteList(ProductModel product) {
     bool flag = state.product.any((p) => p.id == product.id);
-
     print("This is flag :- $flag");
     return flag;
   }

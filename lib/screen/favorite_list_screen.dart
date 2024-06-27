@@ -1,6 +1,5 @@
 import 'package:add_to_cart/cubit/favorite_cubit.dart';
 import 'package:add_to_cart/model/favorite_model.dart';
-import 'package:add_to_cart/utils/const.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
