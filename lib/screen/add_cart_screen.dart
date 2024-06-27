@@ -23,6 +23,7 @@ class _FavoriteListState extends State<AddCartScreen> {
       appBar: AppBar(
         centerTitle: true,
         title: const Text("Cart List"),
+       
       ),
       body: BlocBuilder<CounterCubit, ProductModel>(
         builder: (context, state) {
@@ -161,84 +162,88 @@ class _FavoriteListState extends State<AddCartScreen> {
       ),
       floatingActionButton: BlocBuilder<CartCubit, CartModel>(
         builder: (context, state) {
-          return FloatingActionButton(
-            child: const Icon(Icons.paypal_rounded),
-            onPressed: () {
-              // context.read<CartCubit>().totalAmount(total_amount: total);
-              showBottomSheet(
-                backgroundColor: const Color.fromARGB(255, 155, 195, 238),
-                shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(20)),
-                context: context,
-                builder: (context) {
-                  var total = 0;
-                  return Column(
-                    children: [
-                      Container(
-                        color: Colors.amber,
-                        height: 550,
-                        child: Center(
-                          child: ListView.builder(
-                            itemCount: state.product!.length,
-                            itemBuilder: (context, index) {
-                              var name = state.product![index].name as String;
-                              var price = state.product![index].price as int;
-                              var qty = state.product![index].count;
-                              var subTotal = price * qty;
-                              total += (price * qty);
+          if (state.product!.isEmpty) {
+            return Container();
+          } else {
+            return FloatingActionButton(
+              child: const Icon(Icons.paypal_rounded),
+              onPressed: () {
+                // context.read<CartCubit>().totalAmount(total_amount: total);
+                showBottomSheet(
+                  backgroundColor: const Color.fromARGB(255, 155, 195, 238),
+                  shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(20)),
+                  context: context,
+                  builder: (context) {
+                    var total = 0;
+                    return Column(
+                      children: [
+                        Container(
+                          color: Colors.amber,
+                          height: 550,
+                          child: Center(
+                            child: ListView.builder(
+                              itemCount: state.product!.length,
+                              itemBuilder: (context, index) {
+                                var name = state.product![index].name as String;
+                                var price = state.product![index].price as int;
+                                var qty = state.product![index].count;
+                                var subTotal = price * qty;
+                                total += (price * qty);
 
-                              print(total);
-                              return Builder(
-                                builder: (context) {
-                                  return Center(
-                                    child: Column(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.center,
-                                      children: [
-                                        const SizedBox(
-                                          height: 15,
-                                        ),
-                                        Text("Product Name :- $name"),
-                                        Text("Product Price :- $price"),
-                                        Text("Product Quantity :- $qty"),
-                                        Text("Total :- $subTotal"),
-                                      ],
-                                    ),
-                                  );
-                                },
-                              );
-                            },
+                                print(total);
+                                return Builder(
+                                  builder: (context) {
+                                    return Center(
+                                      child: Column(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.center,
+                                        children: [
+                                          const SizedBox(
+                                            height: 15,
+                                          ),
+                                          Text("Product Name :- $name"),
+                                          Text("Product Price :- $price"),
+                                          Text("Product Quantity :- $qty"),
+                                          Text("Total :- $subTotal"),
+                                        ],
+                                      ),
+                                    );
+                                  },
+                                );
+                              },
+                            ),
                           ),
                         ),
-                      ),
-                      const SizedBox(
-                        height: 20,
-                      ),
-                      Column(
-                        children: [
-                          BlocBuilder<CartCubit, CartModel>(
-                            builder: (context, state) {
-                              int totalamount =
-                                  context.read<CartCubit>().totalAmount();
+                        const SizedBox(
+                          height: 20,
+                        ),
+                        Column(
+                          children: [
+                            BlocBuilder<CartCubit, CartModel>(
+                              builder: (context, state) {
+                                int totalamount =
+                                    context.read<CartCubit>().totalAmount();
 
-                              return Column(
-                                children: [
-                                  Text(
-                                    "Total Amount :- $totalamount",
-                                    style: const TextStyle(fontSize: 25),
-                                  ),
-                                ],
-                              );
-                            },
-                          ),
-                        ],
-                      ),
-                    ],
-                  );
-                },
-              );
-            },
-          );
+                                return Column(
+                                  children: [
+                                    Text(
+                                      "Total Amount :- $totalamount",
+                                      style: const TextStyle(fontSize: 25),
+                                    ),
+                                  ],
+                                );
+                              },
+                            ),
+                          ],
+                        ),
+                      ],
+                    );
+                  },
+                );
+              },
+            );
+          }
         },
       ),
     );

@@ -2,6 +2,7 @@ import 'package:add_to_cart/cubit/cart_cubit.dart';
 import 'package:add_to_cart/cubit/favorite_cubit.dart';
 import 'package:add_to_cart/model/cart_model.dart';
 import 'package:add_to_cart/model/favorite_model.dart';
+import 'package:add_to_cart/model/product_model.dart';
 import 'package:add_to_cart/screen/add_cart_screen.dart';
 import 'package:add_to_cart/screen/favorite_list_screen.dart';
 import 'package:add_to_cart/utils/const.dart';
@@ -16,6 +17,29 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
+  TextEditingController searchc = TextEditingController();
+  List<ProductModel> foundproduct = [];
+  @override
+  void initState() {
+    foundproduct = Const.product;
+    super.initState();
+  }
+
+  // void filterProductsByPrice(String enterkeyword) {
+  //   List<ProductModel> resultproduct = [];
+  //   if (enterkeyword.isEmpty) {
+  //     resultproduct = Const.product;
+  //   } else {
+  //     resultproduct = Const.product
+  //         .where((product) =>
+  //             product.name!.toLowerCase().contains(enterkeyword.toLowerCase()))
+  //         .toList();
+  //   }
+  //   setState(() {
+  //     foundproduct = resultproduct;
+  //   });
+  // }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -50,9 +74,39 @@ class _HomeScreenState extends State<HomeScreen> {
               Icons.shopping_cart,
               color: Colors.amber,
             )),
+        bottom: PreferredSize(
+          preferredSize: const Size.fromHeight(50),
+          child: Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 15),
+            child: Container(
+              margin: const EdgeInsets.only(top: 10),
+              child: BlocBuilder<CartCubit, CartModel>(
+                builder: (context, state) {
+                  return TextFormField(
+                    onChanged: (value) {
+                      foundproduct = context
+                          .read<CartCubit>()
+                          .filterProductsByPrice(value);
+                    
+                      print("this is the foundproduct");
+                      print(foundproduct);
+                      setState(() {});
+                    },
+                    controller: searchc,
+                    decoration: InputDecoration(
+                      border: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(15),
+                      ),
+                    ),
+                  );
+                },
+              ),
+            ),
+          ),
+        ),
       ),
       body: ListView.builder(
-        itemCount: Const.product.length,
+        itemCount: foundproduct.length,
         itemBuilder: (context, index) {
           return Card(
             child: Stack(
@@ -66,16 +120,15 @@ class _HomeScreenState extends State<HomeScreen> {
                       decoration: BoxDecoration(
                           borderRadius: BorderRadius.circular(50)),
                       child: Image.network(
-                          fit: BoxFit.fill,
-                          Const.product[index].pic.toString()),
+                          fit: BoxFit.fill, foundproduct[index].pic.toString()),
                     ),
                   ),
                   title: Text(
-                    Const.product[index].name.toString(),
+                    foundproduct[index].name.toString(),
                     style: const TextStyle(fontWeight: FontWeight.bold),
                   ),
                   subtitle: Text(
-                    "Price :- ${Const.product[index].price}",
+                    "Price :- ${foundproduct[index].price}",
                     style: const TextStyle(fontWeight: FontWeight.bold),
                   ),
                   trailing: Row(
@@ -85,7 +138,7 @@ class _HomeScreenState extends State<HomeScreen> {
                         builder: (context, state) {
                           bool inWishList = context
                               .read<FavoriteCubit>()
-                              .inFavoriteList(Const.product[index]);
+                              .inFavoriteList(foundproduct[index]);
                           return Container(
                             child: IconButton(
                               onPressed: () {
@@ -110,8 +163,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                           context
                                               .read<FavoriteCubit>()
                                               .addFavoriteList(
-                                                  product:
-                                                      Const.product[index]);
+                                                  product: foundproduct[index]);
                                         },
                                         child: const SizedBox(
                                           child: Text("okay"),
@@ -137,7 +189,7 @@ class _HomeScreenState extends State<HomeScreen> {
                         builder: (context, state) {
                           bool inWishList = context
                               .read<CartCubit>()
-                              .inCartList(Const.product[index]);
+                              .inCartList(foundproduct[index]);
                           return Container(
                             child: IconButton(
                               onPressed: () {
@@ -160,7 +212,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                           Navigator.pop(context);
 
                                           context.read<CartCubit>().addCartList(
-                                              product: Const.product[index]);
+                                              product: foundproduct[index]);
                                         },
                                         child: const SizedBox(
                                           child: Text("okay"),

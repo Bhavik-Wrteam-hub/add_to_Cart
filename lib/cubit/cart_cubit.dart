@@ -1,6 +1,7 @@
 import 'package:add_to_cart/model/cart_model.dart';
 import 'package:add_to_cart/model/favorite_model.dart';
 import 'package:add_to_cart/model/product_model.dart';
+import 'package:add_to_cart/utils/const.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 class CartCubit extends Cubit<CartModel> {
@@ -38,5 +39,19 @@ class CartCubit extends Cubit<CartModel> {
       total += element.price! * element.count;
     }
     return total;
+  }
+
+  List<ProductModel> filterProductsByPrice(String enterkeyword) {
+    List<ProductModel> resultproduct = [];
+    if (enterkeyword.isEmpty) {
+      resultproduct = Const.product;
+    } else {
+      resultproduct = Const.product
+          .where((product) =>
+              product.name!.toLowerCase().contains(enterkeyword.toLowerCase()))
+          .toList();
+      emit(state.copyWith(serchproduct: resultproduct));
+    }
+    return resultproduct;
   }
 }
