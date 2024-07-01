@@ -1,5 +1,5 @@
 import 'package:add_to_cart/cubit/cart_cubit.dart';
-import 'package:add_to_cart/cubit/count_cubit.dart';
+
 import 'package:add_to_cart/cubit/favorite_cubit.dart';
 import 'package:add_to_cart/screen/home_screen.dart';
 import 'package:flutter/material.dart';
@@ -22,9 +22,7 @@ class MyApp extends StatelessWidget {
         BlocProvider(
           create: (context) => CartCubit(),
         ),
-        BlocProvider(
-          create: (context) => CounterCubit(),
-        )
+      
       ],
       child: MaterialApp(
           debugShowCheckedModeBanner: false,

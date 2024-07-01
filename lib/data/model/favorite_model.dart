@@ -1,6 +1,6 @@
 import 'dart:core';
 
-import 'package:add_to_cart/model/product_model.dart';
+import 'package:add_to_cart/data/model/product_model.dart';
 
 class FavoriteModel {
   List<ProductModel> product = [];

@@ -1,5 +1,5 @@
-import 'package:add_to_cart/model/favorite_model.dart';
-import 'package:add_to_cart/model/product_model.dart';
+import 'package:add_to_cart/data/model/favorite_model.dart';
+import 'package:add_to_cart/data/model/product_model.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 class FavoriteCubit extends Cubit<FavoriteModel> {
