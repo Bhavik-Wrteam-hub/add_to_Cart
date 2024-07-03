@@ -1,15 +1,15 @@
+// ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'dart:core';
 
-import 'package:add_to_cart/data/model/product_model.dart';
-
 class FavoriteModel {
-  List<ProductModel> product = [];
+  int id;
+  String name;
+  int price;
+  String pic;
   FavoriteModel({
-    required this.product,
+    required this.id,
+    required this.name,
+    required this.price,
+    required this.pic,
   });
-  FavoriteModel copyWith({
-    List<ProductModel>? product,
-  }) {
-    return FavoriteModel(product: product ?? this.product);
-  }
 }

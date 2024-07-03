@@ -4,7 +4,7 @@ import 'package:add_to_cart/data/model/cart_model.dart';
 import 'package:add_to_cart/data/model/favorite_model.dart';
 import 'package:add_to_cart/data/model/product_model.dart';
 import 'package:add_to_cart/data/repository/cartRepository.dart';
-import 'package:add_to_cart/utils/const.dart';
+import 'package:add_to_cart/data/repository/product_list.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -131,42 +131,14 @@ class CartCubit extends Cubit<CartState> {
     }
   }
 
-  // bool isProductInCart(int productId) {
-  //   if (state is CartInSuccess) {
-  //     List<CartModel> cartItems = (state as CartInSuccess).cartitem;
-
-  //     return cartItems.any((cartItem) => cartItem.id == productId);
-  //   }
-  //   return false;
-  // }
-
-  // void removeCartList({required ProductModel product}) async {
-  //   try {
-  //     print(product.name);
-  //     emit(state.copyWith(product: state.product!..remove(product)));
-  //     emit(state.copyWith(count: product.qty = 0));
-  //     print("Remove Cart List");
-  //   } catch (e) {
-  //     print(e.toString());
-  //   }
-  // }
   bool isProductInCart(int productId) {
     if (state is CartInSuccess) {
       List<CartModel> cartItems = (state as CartInSuccess).cartitem;
-
+            
       return cartItems.any((cartItem) => cartItem.id == productId);
     }
     return false;
   }
-
-  // int totalAmount(CartModel product) {
-  //   int total = 0;
-  //   for (var element in product) {
-  //     total += element.price! * element.qty;
-  //   }
-  //   return total;
-  // }
-
 
   double totalAmount() {
     return (state as CartInSuccess).cartitem.fold(

@@ -2,7 +2,6 @@ import 'package:add_to_cart/data/model/favorite_model.dart';
 import 'package:add_to_cart/data/model/product_model.dart';
 
 class Const {
-  static List<FavoriteModel> favorite = [];
   static List<ProductModel> product = [
     ProductModel(
         id: 1,

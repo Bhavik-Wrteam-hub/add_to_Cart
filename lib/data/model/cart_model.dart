@@ -22,10 +22,11 @@ class CartModel {
     String? pic,
   }) {
     return CartModel(
-        qty: qty ?? this.qty,
-        id: id ?? this.id,
-        name: name ?? this.name,
-        price: price ?? this.price,
-        pic: pic ?? this.pic);
+      qty: qty ?? this.qty,
+      id: id ?? this.id,
+      name: name ?? this.name,
+      price: price ?? this.price,
+      pic: pic ?? this.pic,
+    );
   }
 }
