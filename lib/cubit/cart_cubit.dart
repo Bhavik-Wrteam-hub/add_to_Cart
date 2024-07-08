@@ -1,16 +1,13 @@
 import 'dart:io';
 
 import 'package:add_to_cart/data/model/cart_model.dart';
-import 'package:add_to_cart/data/model/favorite_model.dart';
 import 'package:add_to_cart/data/model/product_model.dart';
 import 'package:add_to_cart/data/repository/cartRepository.dart';
 import 'package:add_to_cart/data/repository/product_list.dart';
-import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:pdf/widgets.dart' as pw;
-import 'package:google_fonts/google_fonts.dart';
 import 'package:pdf/widgets.dart';
 
 abstract class CartState {}
@@ -134,7 +131,7 @@ class CartCubit extends Cubit<CartState> {
   bool isProductInCart(int productId) {
     if (state is CartInSuccess) {
       List<CartModel> cartItems = (state as CartInSuccess).cartitem;
-            
+
       return cartItems.any((cartItem) => cartItem.id == productId);
     }
     return false;
@@ -146,21 +143,9 @@ class CartCubit extends Cubit<CartState> {
           (double total, CartModel cartItem) =>
               total + cartItem.price * cartItem.qty,
         );
-  }
+  }   
 
-  // List<ProductModel> filterProductsByPrice(String enterkeyword) {
-  //   List<ProductModel> resultproduct = [];
-  //   if (enterkeyword.isEmpty) {
-  //     resultproduct = Const.product;
-  //   } else {
-  //     resultproduct = Const.product
-  //         .where((product) =>
-  //             product.name!.toLowerCase().contains(enterkeyword.toLowerCase()))
-  //         .toList();
-  //     emit(state.copyWith(serchproduct: resultproduct));
-  //   }
-  //   return resultproduct;
-  // }
+
 
   Future<void> pdf() async {
     final pdf = pw.Document();

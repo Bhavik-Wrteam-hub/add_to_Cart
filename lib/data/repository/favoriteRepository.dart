@@ -1,5 +1,5 @@
 import 'package:add_to_cart/data/model/favorite_model.dart';
-import 'package:add_to_cart/screen/favorite_list_screen.dart';
+import 'package:add_to_cart/data/model/product_model.dart';
 
 class Favoriterepository {
 
@@ -7,5 +7,4 @@ class Favoriterepository {
     await Future.delayed(Duration(seconds: 1));
     return List<FavoriteModel>.from([]);
   }
-
 }

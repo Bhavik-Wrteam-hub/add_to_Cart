@@ -1,7 +1,7 @@
 import 'package:add_to_cart/cubit/cart_cubit.dart';
 
 import 'package:add_to_cart/cubit/favorite_cubit.dart';
-import 'package:add_to_cart/data/model/cart_model.dart';
+import 'package:add_to_cart/cubit/filter_cubit.dart';
 import 'package:add_to_cart/data/model/favorite_model.dart';
 import 'package:add_to_cart/data/model/product_model.dart';
 import 'package:add_to_cart/screen/add_cart_screen.dart';
@@ -21,11 +21,12 @@ class HomeScreen extends StatefulWidget {
 class _HomeScreenState extends State<HomeScreen> {
   TextEditingController searchc = TextEditingController();
   List<ProductModel> foundproduct = [];
+  bool infavoriteList = false;
+
   @override
   void initState() {
     foundproduct = Const.product;
     context.read<CartCubit>().fetchCartItems();
-    context.read<FavoriteCubit>().fatchFavoriteItem();
     super.initState();
   }
 
@@ -84,14 +85,14 @@ class _HomeScreenState extends State<HomeScreen> {
             padding: const EdgeInsets.symmetric(horizontal: 15),
             child: Container(
               margin: const EdgeInsets.only(top: 10),
-              child: BlocBuilder<CartCubit, CartState>(
+              child: BlocBuilder<FilterCubit, FavoriteModel>(
                 builder: (context, state) {
                   return TextFormField(
                     onChanged: (value) {
-                      // foundproduct = context
-                      //     .read<CartCubit>()
-                      //     .filterProductsByPrice(value);
-                      // foundproduct = state.serchproduct ?? [];
+                      foundproduct = context
+                          .read<FilterCubit>()
+                          .filterProductsByPrice(value);
+                      foundproduct = state.serchproduct ?? [];
                       print("this is the foundproduct");
                       print(foundproduct);
                       setState(() {});
@@ -215,11 +216,11 @@ class _HomeScreenState extends State<HomeScreen> {
                     trailing: Row(
                       mainAxisSize: MainAxisSize.min,
                       children: [
-                        BlocBuilder<FavoriteCubit, FavoriteState>(
+                        BlocBuilder<FavoriteCubit, FavoriteModel>(
                           builder: (context, state) {
-                            bool infavoriteList = context
+                            infavoriteList = context
                                 .read<FavoriteCubit>()
-                                .inFavoriteList(foundproduct[index].id);
+                                .inFavoriteList(foundproduct[index]);
                             return Container(
                               child: IconButton(
                                 onPressed: () {
@@ -241,8 +242,8 @@ class _HomeScreenState extends State<HomeScreen> {
                                           onPressed: () {
                                             Navigator.pop(context);
 
-                                            print("hear....");
-                                            print(infavoriteList);
+                                            print(
+                                                "this is the in favoriteList :-$infavoriteList");
                                             context
                                                 .read<FavoriteCubit>()
                                                 .addFavoriteList(

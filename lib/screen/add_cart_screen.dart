@@ -154,105 +154,105 @@ class _FavoriteListState extends State<AddCartScreen> {
       ),
       floatingActionButton: BlocBuilder<CartCubit, CartState>(
         builder: (context, state) {
-          if (state is CartInProgres) {
-            return const Center(
-              child: CircleAvatar(),
-            );
-          } else if (state is CartInSuccess) {
-            return FloatingActionButton(
-              child: const Icon(Icons.paypal_rounded),
-              onPressed: () {
-                // context.read<CartCubit>().totalAmount(total_amount: total);
-                showBottomSheet(
-                  backgroundColor: const Color.fromARGB(255, 155, 195, 238),
-                  shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(20)),
-                  context: context,
-                  builder: (context) {
-                    var total = 0;
-                    return Column(
-                      children: [
-                        Container(
-                          color: Colors.amber,
-                          height: 550,
-                          child: Center(
-                            child: ListView.builder(
-                              itemCount: state.cartitem.length,
-                              itemBuilder: (context, index) {
-                                var name = state.cartitem[index].name;
-                                var price = state.cartitem[index].price;
-                                var qty = state.cartitem[index].qty;
-                                var subTotal = price * qty;
-                                total += (price * qty);
+          if (state is CartInSuccess) {
+            if (state.cartitem.isEmpty) {
+              return Container();
+            } else {
+              return FloatingActionButton(
+                child: const Icon(Icons.paypal_rounded),
+                onPressed: () {
+                  // context.read<CartCubit>().totalAmount(total_amount: total);
+                  showBottomSheet(
+                    backgroundColor: const Color.fromARGB(255, 155, 195, 238),
+                    shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(20)),
+                    context: context,
+                    builder: (context) {
+                      var total = 0;
+                      return Column(
+                        children: [
+                          Container(
+                            color: Colors.amber,
+                            height: 550,
+                            child: Center(
+                              child: ListView.builder(
+                                itemCount: state.cartitem.length,
+                                itemBuilder: (context, index) {
+                                  var name = state.cartitem[index].name;
+                                  var price = state.cartitem[index].price;
+                                  var qty = state.cartitem[index].qty;
+                                  var subTotal = price * qty;
+                                  total += (price * qty);
 
-                                print(total);
-                                return Builder(
-                                  builder: (context) {
-                                    return Center(
-                                      child: Column(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.center,
-                                        children: [
-                                          const SizedBox(
-                                            height: 15,
-                                          ),
-                                          Text("Product Name :- $name"),
-                                          Text("Product Price :- $price"),
-                                          Text("Product Quantity :- $qty"),
-                                          Text("Total :- $subTotal"),
-                                        ],
-                                      ),
-                                    );
-                                  },
-                                );
-                              },
+                                  print(total);
+                                  return Builder(
+                                    builder: (context) {
+                                      return Center(
+                                        child: Column(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.center,
+                                          children: [
+                                            const SizedBox(
+                                              height: 15,
+                                            ),
+                                            Text("Product Name :- $name"),
+                                            Text("Product Price :- $price"),
+                                            Text("Product Quantity :- $qty"),
+                                            Text("Total :- $subTotal"),
+                                          ],
+                                        ),
+                                      );
+                                    },
+                                  );
+                                },
+                              ),
                             ),
                           ),
-                        ),
-                        const SizedBox(
-                          height: 20,
-                        ),
-                        Column(
-                          children: [
-                            BlocBuilder<CartCubit, CartState>(
-                              builder: (context, state) {
-                                double totalamount =
-                                    context.read<CartCubit>().totalAmount();
+                          const SizedBox(
+                            height: 20,
+                          ),
+                          Column(
+                            children: [
+                              BlocBuilder<CartCubit, CartState>(
+                                builder: (context, state) {
+                                  double totalamount =
+                                      context.read<CartCubit>().totalAmount();
 
-                                return Column(
-                                  children: [
-                                    Text(
-                                      "Total Amount :- $totalamount",
-                                      style: const TextStyle(fontSize: 25),
-                                    ),
-                                    const SizedBox(
-                                      height: 20,
-                                    ),
-                                    ElevatedButton(
-                                      onPressed: () {
-                                        context.read<CartCubit>().pdf();
-                                        ScaffoldMessenger.of(context)
-                                            .showSnackBar(const SnackBar(
-                                                backgroundColor:
-                                                    Colors.purpleAccent,
-                                                content: Text(
-                                                    "Pdf Download Successfully")));
-                                      },
-                                      child: const Text("Pay",
-                                          style: TextStyle(fontSize: 20)),
-                                    )
-                                  ],
-                                );
-                              },
-                            ),
-                          ],
-                        ),
-                      ],
-                    );
-                  },
-                );
-              },
-            );
+                                  return Column(
+                                    children: [
+                                      Text(
+                                        "Total Amount :- $totalamount",
+                                        style: const TextStyle(fontSize: 25),
+                                      ),
+                                      const SizedBox(
+                                        height: 20,
+                                      ),
+                                      ElevatedButton(
+                                        onPressed: () {
+                                          context.read<CartCubit>().pdf();
+                                          ScaffoldMessenger.of(context)
+                                              .showSnackBar(const SnackBar(
+                                                  backgroundColor:
+                                                      Colors.purpleAccent,
+                                                  content: Text(
+                                                      "Pdf Download Successfully")));
+                                        },
+                                        child: const Text("Pay",
+                                            style: TextStyle(fontSize: 20)),
+                                      )
+                                    ],
+                                  );
+                                },
+                              ),
+                            ],
+                          ),
+                        ],
+                      );
+                    },
+                  );
+                },
+              );
+            }
           } else if (state is CartInerror) {
             return Text("This is Error :- ${state.error}");
           }

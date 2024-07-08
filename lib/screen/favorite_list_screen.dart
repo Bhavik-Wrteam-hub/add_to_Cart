@@ -18,84 +18,80 @@ class _FavoriteListState extends State<FavoriteList> {
         centerTitle: true,
         title: const Text("Favorite List"),
       ),
-      body: BlocBuilder<FavoriteCubit, FavoriteState>(
+      body: BlocBuilder<FavoriteCubit, FavoriteModel>(
         builder: (context, state) {
-          if (state is FavoriteStateInSuccess) {
-            if (state.favoriteitem.isEmpty) {
-              return const Center(
-                child: Text("Favorite List is Emty"),
-              );
-            } else {
-              return ListView.builder(
-                itemCount: state.favoriteitem.length,
-                itemBuilder: (context, index) {
-                  return Card(
-                      child: Stack(
-                    children: [
-                      ListTile(
-                        leading: CircleAvatar(
-                          child: Image.network(
-                            height: 50,
-                            width: 50,
-                            state.favoriteitem[index].pic.toString(),
-                            fit: BoxFit.fitHeight,
-                          ),
+          if (state.product!.isEmpty) {
+            return const Center(
+              child: Text("Favorite List is Emty"),
+            );
+          } else {
+            return ListView.builder(
+              itemCount: state.product!.length,
+              itemBuilder: (context, index) {
+                return Card(
+                    child: Stack(
+                  children: [
+                    ListTile(
+                      leading: CircleAvatar(
+                        child: Image.network(
+                          height: 50,
+                          width: 50,
+                          state.product![index].pic.toString(),
+                          fit: BoxFit.fitHeight,
                         ),
-                        title: Text(
-                          state.favoriteitem[index].name.toString(),
-                          style: const TextStyle(fontWeight: FontWeight.bold),
-                        ),
-                        subtitle: Text(
-                          "Price :- ${state.favoriteitem[index].price.toString()}",
-                          style: const TextStyle(fontWeight: FontWeight.bold),
-                        ),
-                        trailing: IconButton(
-                          onPressed: () {
-                            showDialog(
-                              context: context,
-                              builder: (context) => AlertDialog(
-                                content: const Text(
-                                    'Click ok button to Remove the favorite'),
-                                actions: [
-                                  ElevatedButton(
-                                    onPressed: () {
-                                      Navigator.pop(context);
-                                    },
-                                    child: const SizedBox(
-                                      child: Text("Cancel"),
-                                    ),
+                      ),
+                      title: Text(
+                        state.product![index].name.toString(),
+                        style: const TextStyle(fontWeight: FontWeight.bold),
+                      ),
+                      subtitle: Text(
+                        "Price :- ${state.product![index].price.toString()}",
+                        style: const TextStyle(fontWeight: FontWeight.bold),
+                      ),
+                      trailing: IconButton(
+                        onPressed: () {
+                          showDialog(
+                            context: context,
+                            builder: (context) => AlertDialog(
+                              content: const Text(
+                                  'Click ok button to Remove the favorite'),
+                              actions: [
+                                ElevatedButton(
+                                  onPressed: () {
+                                    Navigator.pop(context);
+                                  },
+                                  child: const SizedBox(
+                                    child: Text("Cancel"),
                                   ),
-                                  ElevatedButton(
-                                    onPressed: () {
-                                      print('remove..............');
-                                      context
-                                          .read<FavoriteCubit>()
-                                          .removeFavoriteList(
-                                              product:
-                                                  state.favoriteitem[index].id);
-                                      Navigator.pop(context);
-                                    },
-                                    child: const SizedBox(
-                                      child: Text("okay"),
-                                    ),
-                                  )
-                                ],
-                              ),
-                            );
-                          },
-                          icon: const Icon(
-                            Icons.favorite,
-                            color: Colors.amber,
-                          ),
+                                ),
+                                ElevatedButton(
+                                  onPressed: () {
+                                    print('remove..............');
+                                    context
+                                        .read<FavoriteCubit>()
+                                        .removeFavoriteList(
+                                            id: state.product![index].id);
+                                    Navigator.pop(context);
+                                  },
+                                  child: const SizedBox(
+                                    child: Text("okay"),
+                                  ),
+                                )
+                              ],
+                            ),
+                          );
+                        },
+                        icon: const Icon(
+                          Icons.favorite,
+                          color: Colors.amber,
                         ),
-                      )
-                    ],
-                  ));
-                },
-              );
-            }
+                      ),
+                    )
+                  ],
+                ));
+              },
+            );
           }
-          return const Center();
         },
       ),
     );

@@ -1,6 +1,8 @@
 import 'package:add_to_cart/cubit/cart_cubit.dart';
 
 import 'package:add_to_cart/cubit/favorite_cubit.dart';
+import 'package:add_to_cart/cubit/filter_cubit.dart';
+import 'package:add_to_cart/cubit/rating_cubit.dart';
 import 'package:add_to_cart/screen/home_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -22,7 +24,12 @@ class MyApp extends StatelessWidget {
         BlocProvider(
           create: (context) => CartCubit(),
         ),
-      
+        BlocProvider(
+          create: (context) => RatingCubit(),
+        ),
+        BlocProvider(
+          create: (context) => FilterCubit(),
+        ),
       ],
       child: MaterialApp(
           debugShowCheckedModeBanner: false,

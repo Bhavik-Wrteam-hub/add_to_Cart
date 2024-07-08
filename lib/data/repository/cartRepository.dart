@@ -8,11 +8,11 @@ class CartRepository {
     return List<CartModel>.from([]);
   }
 
-  Future<void> addToCart() async {
-    await Future.delayed(const Duration(seconds: 1));
-  }
+  // Future<void> addToCart() async {
+  //   await Future.delayed(const Duration(seconds: 1));
+  // }
 
-  Future<void> removeFromCart() async {
-    await Future.delayed(const Duration(seconds: 1));
-  }
+  // Future<void> removeFromCart() async {
+  //   await Future.delayed(const Duration(seconds: 1));
+  // }
 }
