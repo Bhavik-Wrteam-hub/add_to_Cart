@@ -3,7 +3,10 @@ import 'package:add_to_cart/cubit/cart_cubit.dart';
 import 'package:add_to_cart/cubit/favorite_cubit.dart';
 import 'package:add_to_cart/cubit/filter_cubit.dart';
 import 'package:add_to_cart/cubit/rating_cubit.dart';
+import 'package:add_to_cart/screen/add_cart_screen.dart';
+import 'package:add_to_cart/screen/favorite_list_screen.dart';
 import 'package:add_to_cart/screen/home_screen.dart';
+import 'package:add_to_cart/screen/product_details.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -32,12 +35,18 @@ class MyApp extends StatelessWidget {
         ),
       ],
       child: MaterialApp(
-          debugShowCheckedModeBanner: false,
-          title: 'Add to cart',
-          theme: ThemeData(
-            useMaterial3: true,
-          ),
-          home: const HomeScreen()),
+        debugShowCheckedModeBanner: false,
+        title: 'Add to cart',
+        theme: ThemeData(
+          useMaterial3: true,
+        ),
+        home: const HomeScreen(),
+        routes: {
+          '/favorite': (context) => const FavoriteList(),
+          '/cart': (context) => const AddCartScreen(),
+          '/product': (context) => const ProductDetails(),
+        },
+      ),
     );
   }
 }

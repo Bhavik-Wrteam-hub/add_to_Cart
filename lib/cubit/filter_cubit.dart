@@ -6,7 +6,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 class FilterCubit extends Cubit<FavoriteModel> {
   FilterCubit() : super(FavoriteModel(serchproduct:[]));
 
-  List<ProductModel> filterProductsByPrice(String enterkeyword) {
+  List<ProductModel> filterProductsByName(String enterkeyword) {
     List<ProductModel> resultproduct = [];
     if (enterkeyword.isEmpty) {
       resultproduct = Const.product;

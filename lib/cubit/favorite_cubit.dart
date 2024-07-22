@@ -9,17 +9,17 @@ import 'package:add_to_cart/data/model/product_model.dart';
 class FavoriteCubit extends Cubit<FavoriteModel> {
   FavoriteCubit() : super(FavoriteModel(product: []));
 
-  void addFavoriteList({required ProductModel product}) async {
+  void addFavoriteList({ ProductModel? product}) async {
     try {
       int index = state.product!.indexWhere(
-        (p) => p.id == product.id,
+        (p) => p.id == product!.id,
       );
       if (index != -1) {
         print("this is index if :- $index");
         return;
       } else {
         print("this is index else :- $index");
-        emit(state.copywith(product: state.product!..add(product)));
+        emit(state.copywith(product: state.product!..add(product!)));
       }
     } catch (e) {
       print("This is error :- $e");

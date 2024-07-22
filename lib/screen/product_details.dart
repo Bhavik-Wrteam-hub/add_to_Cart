@@ -9,8 +9,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_pannable_rating_bar/flutter_pannable_rating_bar.dart';
 
 class ProductDetails extends StatefulWidget {
-  ProductModel productModel;
-  ProductDetails({super.key, required this.productModel});
+  const ProductDetails({super.key});
 
   @override
   State<ProductDetails> createState() => _ProductDetailsState();
@@ -20,6 +19,11 @@ class _ProductDetailsState extends State<ProductDetails> {
   double rating = 0.0;
   @override
   Widget build(BuildContext context) {
+    final arguments = ModalRoute.of(context)!.settings.arguments as Map;
+    ProductModel productModel = arguments['productModel'];
+
+    print("Product name");
+    print(productModel.name);
     return Scaffold(
       body: Column(
         children: [
@@ -34,7 +38,7 @@ class _ProductDetailsState extends State<ProductDetails> {
                     decoration: BoxDecoration(
                       image: DecorationImage(
                         fit: BoxFit.cover,
-                        image: NetworkImage(widget.productModel.pic),
+                        image: NetworkImage(productModel.pic),
                       ),
                     ),
                     child: Column(
@@ -52,13 +56,15 @@ class _ProductDetailsState extends State<ProductDetails> {
                                   decoration: const BoxDecoration(
                                     boxShadow: [
                                       BoxShadow(
-                                          offset: Offset(2, 1),
-                                          color: Color.fromARGB(
-                                              255, 156, 154, 154),
-                                          blurRadius: 2.0)
+                                        offset: Offset(2, 1),
+                                        color:
+                                            Color.fromARGB(255, 156, 154, 154),
+                                        blurRadius: 2.0,
+                                      ),
                                     ],
-                                    borderRadius:
-                                        BorderRadius.all(Radius.circular(10)),
+                                    borderRadius: BorderRadius.all(
+                                      Radius.circular(10),
+                                    ),
                                     color: Color.fromARGB(255, 247, 245, 238),
                                   ),
                                   child: Center(
@@ -112,8 +118,7 @@ class _ProductDetailsState extends State<ProductDetails> {
                                               context
                                                   .read<FavoriteCubit>()
                                                   .addFavoriteList(
-                                                      product:
-                                                          widget.productModel);
+                                                      product: productModel);
                                               ScaffoldMessenger.of(context)
                                                   .showSnackBar(
                                                 const SnackBar(
@@ -195,7 +200,7 @@ class _ProductDetailsState extends State<ProductDetails> {
             child: Align(
               alignment: Alignment.topLeft,
               child: Text(
-                widget.productModel.name,
+                productModel.name,
                 style: const TextStyle(fontSize: 20),
               ),
             ),
@@ -208,7 +213,7 @@ class _ProductDetailsState extends State<ProductDetails> {
             child: Align(
               alignment: Alignment.topLeft,
               child: Text(
-                "\$${widget.productModel.price.toString()} ",
+                "\$${productModel.price.toString()} ",
                 style: const TextStyle(fontSize: 20, color: Colors.redAccent),
               ),
             ),
@@ -266,7 +271,7 @@ class _ProductDetailsState extends State<ProductDetails> {
                       if (state is CartInSuccess) {
                         context
                             .read<CartCubit>()
-                            .addCartList(product: widget.productModel);
+                            .addCartList(product: productModel);
                         Navigator.push(
                           context,
                           MaterialPageRoute(
@@ -284,7 +289,7 @@ class _ProductDetailsState extends State<ProductDetails> {
                       if (state is CartInSuccess) {
                         context
                             .read<CartCubit>()
-                            .addCartList(product: widget.productModel);
+                            .addCartList(product: productModel);
                         Navigator.push(
                           context,
                           MaterialPageRoute(

@@ -40,8 +40,8 @@ class CartCubit extends Cubit<CartState> {
     }
   }
 
-  void addCartList({required ProductModel product}) async {
-    print(product.name);
+  void addCartList({ ProductModel? product}) async {
+    print(product!.name);
     try {
       if (state is CartInSuccess) {
         List<CartModel> cartItem = (state as CartInSuccess).cartitem;
